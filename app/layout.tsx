@@ -13,8 +13,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
-		<body className="bg-light">
+		<head>
 			<Script src='/assets/js/layout.js' strategy="afterInteractive" />
+		</head>
+		<body className="bg-light">
 
 			<div id="layout-wrapper">
 

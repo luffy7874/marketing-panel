@@ -1,71 +1,99 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useRef, useState } from "react";
+import TopBarLoader from "../Components/topLoader";
+import CampaignTable from "../Components/FacebookCampaignTable";
+import { format, subDays } from "date-fns";
+import MetaDateRange from "../Components/DateRangePicker";
+import { ApiData } from "../utils/types";
+import { useRouter, useSearchParams } from "next/navigation";
+
 
 export default function Facebook() {
-  	return (
-		<div className="page-content">
-			<div className="container-fluid">
-				{/* <!-- start page title --> */}
-				<div className="row">
-					<div className="col-12">
-						<div className="page-title-box d-sm-flex align-items-center justify-content-between">
-							<h4 className="mb-sm-0">Facebook</h4>
+    const isFirstRender = useRef(true);
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const startParam = searchParams.get("from_date");
+    const endParam = searchParams.get("to_date");
 
-							<div className="page-title-right">
-								<ol className="breadcrumb m-0">
-									<li className="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
-									<li className="breadcrumb-item active">Facebook</li>
-								</ol>
-							</div>
+    const [apiData, setApiData] = useState<ApiData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [open, setOpen] = useState(false);
+    const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
+        startParam ? new Date(startParam) : subDays(new Date(), 6),
+        endParam ? new Date(endParam) : new Date(),
+    ]);
 
-						</div>
-					</div>
-				</div>
-                {/* <!-- Striped Rows --> */}
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Id</th>
-                            <th scope="col">Customer</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Invoice</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Bobby Davis</td>
-                            <td>Nov 14, 2021</td>
-                            <td>$2,410</td>
-                            <td><span className="badge bg-success">Confirmed</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Christopher Neal</td>
-                            <td>Nov 21, 2021</td>
-                            <td>$1,450</td>
-                            <td><span className="badge bg-warning">Waiting</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Monkey Karry</td>
-                            <td>Nov 24, 2021</td>
-                            <td>$3,500</td>
-                            <td><span className="badge bg-success">Confirmed</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Aaron James</td>
-                            <td>Nov 25, 2021</td>
-                            <td>$6,875</td>
-                            <td><span className="badge bg-danger">Cancelled</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+    useEffect(() => {
+        if (!dateRange[0] || !dateRange[1]) return;
 
-			</div>
-			{/* <!-- end container-fluid --> */}
-		</div>
-			
-  	)
+        const startStr = format(dateRange[0], "yyyy-MM-dd");
+        const endStr = format(dateRange[1], "yyyy-MM-dd");
+
+        // 1. Fetch Data (Always fetch based on current state)
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch(
+                    `${process.env.NEXT_PUBLIC_API_URL}/facebook/metrices?from_date=${startStr}&to_date=${endStr}`
+                );
+                if (!response.ok) throw new Error("Failed");
+                const data = await response.json();
+                setApiData(data);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+        
+        const currentStart = searchParams.get("from_date");
+        const currentEnd = searchParams.get("to_date");
+
+        if (startStr !== currentStart || endStr !== currentEnd) {
+            router.replace(`?from_date=${startStr}&to_date=${endStr}`, { scroll: false });
+        }
+
+    }, [dateRange]);
+
+
+
+    return (
+        <div className="page-content">
+            <TopBarLoader isLoading={loading} color="bg-danger" />
+
+            <div className={`container-fluid p-4 ${loading ? 'opacity-50' : ''}`} style={{ transition: 'opacity 0.5s' }}>
+                <div className="d-flex justify-content-between">
+                    <h3>Facebook Ads Dashboard</h3>
+                    <button className="btn btn-primary">🏆 Top Performing</button>
+                </div>
+                <div className="d-flex justify-content-between align-items-center mb-4 mt-3">
+                    <p className="m-0">
+                        Total Ads expenses during <span className="text-info">{startParam + " to " + endParam} </span> : 
+                        <b className="text-success px-2"> ₹{apiData?.totalSpend.toFixed(2)}</b>
+                    </p>
+                    <div style={{ position: "relative", display: "inline-block" }}>
+                        {apiData && (
+                            <div
+                            id="date-alert"
+                            className="alert alert-info py-1 px-3 mb-0"
+                            onClick={() => setOpen(!open)}
+                            style={{ cursor: "pointer" }}
+                            >
+                            Date: <strong>{apiData.date}</strong>
+                            </div>
+                        )}
+                        <MetaDateRange
+                            open={open}
+                            setOpen={setOpen}
+                            dateRange={dateRange}
+                            setDateRange={setDateRange}
+                        />
+                    </div>
+                </div>
+
+                <CampaignTable data={apiData || { campaigns: [] }} />
+            </div>
+        </div>
+    );
 }
