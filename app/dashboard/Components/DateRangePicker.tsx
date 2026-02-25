@@ -8,7 +8,7 @@ import {
 } from "date-fns";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { MetaDateRangeOption } from "../utils/types";
+import { MetaDateRangeOption } from "../../utils/types";
 import { CustomDatePickerHeader } from "./DatePickerCustomHeader";
 
 

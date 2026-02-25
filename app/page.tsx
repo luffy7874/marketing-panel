@@ -1,7 +1,4 @@
-import Image from "next/image";
-import Footer from "./Components/Layout/footer";
-import Header from "./Components/Layout/header";
-import Sidebar from "./Components/Layout/sidebar";
+
 
 export default function Home() {
   	return (
