@@ -14,11 +14,14 @@ export default function LogoutButton() {
         try {
             await axios.post('/api/logout');
 
-            document.cookie = "is_logged_in=; Max-Age=0; path=/";
+            delete axios.defaults.headers.common['Authorization'];
 
             router.push('/auth/login');
         } catch (error) {
             console.error("Failed to log out", error);
+            delete axios.defaults.headers.common['Authorization'];
+            router.push('/auth/login');
+            
             setIsLoggingOut(false);
         }
     };

@@ -3,14 +3,16 @@
 import { useState } from "react";
 import Sidebox from "../component/sidebox";
 import Link from "next/link";
-import { RegisterData, RegisterError } from "@/app/utils/types";
+import { RegisterError } from "@/app/utils/types";
 import axios from "@/app/libs/axios";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function Register()
 {
     const router = useRouter();
+    const { login } = useAuth();
 
     const schema = z.object({
         name: z.string().min(2, "Please enter name"),
@@ -29,10 +31,11 @@ export default function Register()
     const [error, setError] = useState<RegisterError | undefined>();
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = async(e: React.FormEvent) =>{
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
-        setError({name: [], email: [], password : [], password_confirmation: []})
+        // Reset errors
+        setError({ name: [], email: [], password: [], password_confirmation: [] });
 
         const result = schema.safeParse({
             name,
@@ -43,35 +46,45 @@ export default function Register()
 
         if (!result.success) {
             const fieldErrors = result.error.flatten().fieldErrors;
-
-            setIsLoading(false);
-
             setError({
-                name: fieldErrors.name,
-                email: fieldErrors.email,
-                password: fieldErrors.password,
-                password_confirmation: fieldErrors.password_confirmation
+                name: fieldErrors.name || [],
+                email: fieldErrors.email || [],
+                password: fieldErrors.password || [],
+                password_confirmation: fieldErrors.password_confirmation || []
             });
-
-            return; // stop submission
+            setIsLoading(false);
+            return; 
         }
 
-        try{
-            await axios.get('/sanctum/csrf-cookie');
-
+        try {
             const response = await axios.post("/api/register", result.data);
-            if (response.status === 200) {
-                document.cookie = "is_logged_in=1; path=/";
+
+            if (response.status === 200 || response.status === 201) {
+                const token = response.data.token;
+                
+                login(token);
+
+                console.log("Secure token stored in memory!", token);
+
                 router.push("/dashboard");
             }
             
-        }catch(err: any){
+        } catch (err: any) {
             const errData = err.response?.data;
-            setError(errData.errors);
-        }finally {
+            
+            if (errData?.errors) {
+                setError(errData.errors);
+            } else {
+                setError({ 
+                    name: [], 
+                    email: ["An unexpected error occurred during registration."], 
+                    password: [], 
+                    password_confirmation: [] 
+                });
+            }
+        } finally {
             setIsLoading(false);
         }
-        
     }
 
     return(

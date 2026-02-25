@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {z} from "zod";
 import { LoginError } from "@/app/utils/types";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function Login()
 {
@@ -19,11 +20,12 @@ export default function Login()
     const [password, setPassword] = useState<string>("");
     const [error, setError] = useState<LoginError>();
     const [isLoading, setIsLoading] = useState(false);
+    const { login } = useAuth();
 
-    const handleSubmit = async(e: React.FormEvent) =>{
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
-        setError({email: [], password : []})
+        setError({ email: [], password: [] });
 
         const result = schema.safeParse({
             email,
@@ -32,33 +34,41 @@ export default function Login()
 
         if (!result.success) {
             const fieldErrors = result.error.flatten().fieldErrors;
-
-            setIsLoading(false);
-
             setError({
-                email: fieldErrors.email,
-                password: fieldErrors.password,
+                email: fieldErrors.email || [],
+                password: fieldErrors.password || [],
             });
-
-            return; // stop submission
+            setIsLoading(false);
+            return; 
         }
 
-        try{
-            await axios.get('/sanctum/csrf-cookie');
-
+        try {
             const response = await axios.post("/api/login", result.data);
-            if (response.status === 200) {
-                document.cookie = "is_logged_in=1; path=/";
+
+            if (response.status === 200) 
+            {
+                const token = response.data.token;
+                
+                login(token);
+
+                console.log("Secure token stored in memory!", token);
+
                 router.push("/dashboard");
             }
             
-        }catch(err: any){
+        } catch (err: any) {
             const errData = err.response?.data;
-            setError(errData.errors);
-        }finally {
+            
+            if (err.response?.status === 401) {
+                setError({ email: [errData.message], password: [] });
+            } else if (errData?.errors) {
+                setError(errData.errors);
+            } else {
+                setError({ email: ["An unexpected error occurred."], password: [] });
+            }
+        } finally {
             setIsLoading(false);
         }
-        
     }
 
     return(

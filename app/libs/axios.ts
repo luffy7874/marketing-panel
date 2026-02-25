@@ -6,15 +6,15 @@ const axios = Axios.create({
         'X-Requested-With': 'XMLHttpRequest',
         'Accept': 'application/json',
     },
-    withCredentials: true,
-    withXSRFToken: true,
 });
 
 axios.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response?.status === 401) {
-            document.cookie = "is_logged_in=; Max-Age=0; path=/";
+            
+            delete axios.defaults.headers.common['Authorization'];
+            
             if (typeof window !== 'undefined') {
                 window.location.href = '/auth/login';
             }
