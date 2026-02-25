@@ -26,6 +26,7 @@ function TokenManager() {
                 
                 if(response.status == 200){
 
+                    console.log("Fetched Tokens:", response.data);
                     setAccessTokens(response.data.facebook_token);
                 }
             } catch (error) {
