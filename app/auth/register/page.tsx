@@ -26,13 +26,13 @@ export default function Register()
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
-    const [error, setError] = useState<RegisterError | undefined>({});
+    const [error, setError] = useState<RegisterError | undefined>();
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async(e: React.FormEvent) =>{
         e.preventDefault();
         setIsLoading(true);
-        setError({})
+        setError({name: [], email: [], password : [], password_confirmation: []})
 
         const result = schema.safeParse({
             name,

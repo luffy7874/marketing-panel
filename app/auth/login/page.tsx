@@ -23,7 +23,7 @@ export default function Login()
     const handleSubmit = async(e: React.FormEvent) =>{
         e.preventDefault();
         setIsLoading(true);
-        setError({})
+        setError({email: [], password : []})
 
         const result = schema.safeParse({
             email,
