@@ -1,6 +1,7 @@
-import TopBarLoader from "@/app/Components/topLoader";
+
 import { fetchApiData } from "@/app/libs/fetchData";
 import AdsetTable from "./AdsetTable";
+import TopBarLoader from "../../Components/topLoader";
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
     const loading = false;
