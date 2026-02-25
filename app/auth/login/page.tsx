@@ -46,7 +46,7 @@ export default function Login()
         try{
             await axios.get('/sanctum/csrf-cookie');
 
-            const response = await axios.post("/api/login", result.data);
+            const response = await axios.post("/login", result.data);
             if (response.status === 200) {
                 document.cookie = "is_logged_in=1; path=/";
                 router.push("/dashboard");
