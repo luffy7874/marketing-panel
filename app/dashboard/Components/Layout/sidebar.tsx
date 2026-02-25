@@ -60,7 +60,7 @@ export default function Sidebar()
                         {/* <!-- end Dashboard Menu --> */}
 
                         <li className="nav-item">
-                            <Link href="/facebook" className={`nav-link ${pathname === '/facebook' ? 'active' : ''}`} replace scroll>
+                            <Link href="/dashboard/facebook" className={`nav-link ${pathname === '/dashboard/facebook' ? 'active' : ''}`}>
                                 <i className="ri-dashboard-2-line"></i>
                                 <span>Facebook Ads</span>
                             </Link>
@@ -73,7 +73,7 @@ export default function Sidebar()
                         </li> */}
 
                         <li className="nav-item">
-                            <Link href="/tokens" className={`nav-link ${pathname === '/tokens' ? 'active' : ''}`}>
+                            <Link href="/dashboard/tokens" className={`nav-link ${pathname === '/dashboard/tokens' ? 'active' : ''}`}>
                                 <i className=" ri-settings-2-line"></i>
                                 <span>Manage Tokens</span>
                             </Link>

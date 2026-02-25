@@ -10,7 +10,6 @@
 	padding: 16px;
 	border-radius: 12px;
 	border: 1px solid #959595;
-	color: #e4e6eb;
 	gap: 20px;
 	width: fit-content;
 }
@@ -89,4 +88,19 @@
 
 .react-datepicker__navigation-icon::before {
 	border-color: #e4e6eb;
+}
+
+.react-datepicker { border: none !important; }
+.react-datepicker__month-container { margin: 0 12px !important; }
+.react-datepicker__header { background-color: white !important; border-bottom: none !important; padding-top: 10px; }
+.react-datepicker__day--selected, .react-datepicker__day--in-range { background-color: #0d6efd !important; color: white !important; }
+.react-datepicker__day--in-selecting-range { background-color: rgba(13, 110, 253, 0.2) !important; }
+.right-panel { transition: all 0.2s ease-in-out; }
+
+/** Width css **/
+.w-30 {
+	width: 30%;
+}
+.w-70 {
+	width: 70%;
 }

@@ -3,7 +3,11 @@ export type MetaDateRangeOption = {
 	setOpen: (val: boolean) => void;
     dateRange: [Date | null, Date | null];
     setDateRange: (range: [Date | null, Date | null]) => void;
-    onChange?: (start: Date | null, end: Date | null) => void;
+    compare: boolean;
+    setCompare: (val: boolean) => void;
+    compareRange: [Date | null, Date | null];
+    setCompareRange: (range: [Date | null, Date | null]) => void;
+    onApply: () => void;
 }
 
 export type Campaign = {
@@ -14,6 +18,10 @@ export type Campaign = {
     purchases: number;
     value: number;
     cpp: number;
+    cpm: number;
+    impressions: number;
+    reach: number;
+    ctr: number;
     roas: number;
     start_date: string;
     end_date: string;
@@ -24,6 +32,7 @@ export type Campaign = {
 
 export type CampaignResponse = {
   campaigns: Campaign[];
+  total_spend: number;
 };
 
 export type Props = {
@@ -33,6 +42,24 @@ export type Props = {
 export type ApiData = {
     date: string;
     campaigns: Campaign[];
-    totalSpend: number;
-    currency: string;
+    total_spend: number;
+}
+
+export type RegisterData = {
+    name: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
+}
+
+export type RegisterError = {
+    name: string[] | undefined,
+    email: string[] | undefined,
+    password: string[] | undefined;
+    password_confirmation: string[] | undefined;
+}
+
+export type LoginError = {
+    email: string[] | undefined,
+    password: string[] | undefined;
 }

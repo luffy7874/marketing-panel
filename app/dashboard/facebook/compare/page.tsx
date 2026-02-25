@@ -1,15 +1,14 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import TopBarLoader from "../Components/topLoader";
-import CampaignTable from "../Components/FacebookCampaignTable";
+import { useEffect, useState } from "react";
 import { format, subDays } from "date-fns";
-import MetaDateRange from "../Components/DateRangePicker";
-import { ApiData } from "../utils/types";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ApiData } from "@/app/utils/types";
+import TopBarLoader from "@/app/Components/topLoader";
+import CompareDatePicker from "@/app/Components/CompareDatePicker";
+import CompareTable from "@/app/Components/CompareTable";
 
 
-export default function Facebook() {
-    const isFirstRender = useRef(true);
+export default function Page() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const startParam = searchParams.get("from_date");
@@ -22,6 +21,7 @@ export default function Facebook() {
         startParam ? new Date(startParam) : subDays(new Date(), 6),
         endParam ? new Date(endParam) : new Date(),
     ]);
+
 
     useEffect(() => {
         if (!dateRange[0] || !dateRange[1]) return;
@@ -46,7 +46,7 @@ export default function Facebook() {
             }
         };
         fetchData();
-        
+
         const currentStart = searchParams.get("from_date");
         const currentEnd = searchParams.get("to_date");
 
@@ -64,7 +64,7 @@ export default function Facebook() {
 
             <div className={`container-fluid p-4 ${loading ? 'opacity-50' : ''}`} style={{ transition: 'opacity 0.5s' }}>
                 <div className="d-flex justify-content-between">
-                    <h3>Facebook Ads Dashboard</h3>
+                    <h3>Compare Ads</h3>
                     <button className="btn btn-primary">🏆 Top Performing</button>
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-4 mt-3">
@@ -83,7 +83,7 @@ export default function Facebook() {
                             Date: <strong>{apiData.date}</strong>
                             </div>
                         )}
-                        <MetaDateRange
+                        <CompareDatePicker
                             open={open}
                             setOpen={setOpen}
                             dateRange={dateRange}
@@ -92,7 +92,7 @@ export default function Facebook() {
                     </div>
                 </div>
 
-                <CampaignTable data={apiData || { campaigns: [] }} />
+                <CompareTable data={apiData || { campaigns: [] }} />
             </div>
         </div>
     );

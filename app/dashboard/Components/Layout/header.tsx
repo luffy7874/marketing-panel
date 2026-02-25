@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import LogoutButton from "./logout";
 
 export default function Header() {
     const [search, setSearch] = useState<string | undefined>("");
@@ -68,7 +69,7 @@ export default function Header() {
                                         {/* <!-- item --> */}
                                         <a href="javascript:void(0);" className="dropdown-item notify-item py-2">
                                             <div className="d-flex">
-                                                <img src="assets/images/users/avatar-2.jpg" className="me-3 rounded-circle avatar-xs" alt="user-pic" />
+                                                <img src="/assets/images/users/avatar-2.jpg" className="me-3 rounded-circle avatar-xs" alt="user-pic" />
                                                 <div className="flex-1">
                                                     <h6 className="m-0">Angela Bernier</h6>
                                                     <span className="fs-11 mb-0 text-muted">Manager</span>
@@ -78,7 +79,7 @@ export default function Header() {
                                         {/* <!-- item --> */}
                                         <a href="javascript:void(0);" className="dropdown-item notify-item py-2">
                                             <div className="d-flex">
-                                                <img src="assets/images/users/avatar-3.jpg" className="me-3 rounded-circle avatar-xs" alt="user-pic" />
+                                                <img src="/assets/images/users/avatar-3.jpg" className="me-3 rounded-circle avatar-xs" alt="user-pic" />
                                                 <div className="flex-1">
                                                     <h6 className="m-0">David Grasso</h6>
                                                     <span className="fs-11 mb-0 text-muted">Web Designer</span>
@@ -88,7 +89,7 @@ export default function Header() {
                                         {/* <!-- item --> */}
                                         <a href="javascript:void(0);" className="dropdown-item notify-item py-2">
                                             <div className="d-flex">
-                                                <img src="assets/images/users/avatar-5.jpg" className="me-3 rounded-circle avatar-xs" alt="user-pic" />
+                                                <img src="/assets/images/users/avatar-5.jpg" className="me-3 rounded-circle avatar-xs" alt="user-pic" />
                                                 <div className="flex-1">
                                                     <h6 className="m-0">Mike Bunch</h6>
                                                     <span className="fs-11 mb-0 text-muted">React Developer</span>
@@ -127,7 +128,7 @@ export default function Header() {
                         <div className="dropdown ms-sm-3 header-item topbar-user">
                             <button type="button" className="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span className="d-flex align-items-center">
-                                    <img className="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar" />
+                                    <img className="rounded-circle header-profile-user" src="/assets/images/users/avatar-1.jpg" alt="Header Avatar" />
                                     <span className="text-start ms-xl-2">
                                         <span className="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Admin</span>
                                         <span className="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Founder</span>
@@ -145,7 +146,8 @@ export default function Header() {
                                 <a className="dropdown-item" href="pages-profile.html"><i className="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span className="align-middle">Balance : <b>$5971.67</b></span></a>
                                 <a className="dropdown-item" href="pages-profile-settings.html"><span className="badge bg-soft-success text-success mt-1 float-end">New</span><i className="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span className="align-middle">Settings</span></a>
                                 <a className="dropdown-item" href="auth-lockscreen-basic.html"><i className="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span className="align-middle">Lock screen</span></a>
-                                <a className="dropdown-item" href="auth-logout-basic.html"><i className="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span className="align-middle" data-key="t-logout">Logout</span></a>
+                                
+                                <LogoutButton />
                             </div>
                         </div>
                     </div>
