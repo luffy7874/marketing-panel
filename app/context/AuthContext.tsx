@@ -14,7 +14,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [token, setToken] = useState<string | null>(() => {
         if (typeof window !== 'undefined') {
-            return sessionStorage.getItem('token');
+            return localStorage.getItem('token');
         }
         return null;
     });
@@ -27,13 +27,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const login = (newToken: string) => {
         setToken(newToken);
-        sessionStorage.setItem('token', newToken);
+        localStorage.setItem('token', newToken);
         axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
     };
 
     const logout = () => {
         setToken(null);
-        sessionStorage.removeItem('token');
+        localStorage.removeItem('token');
         delete axios.defaults.headers.common['Authorization'];
     };
 
