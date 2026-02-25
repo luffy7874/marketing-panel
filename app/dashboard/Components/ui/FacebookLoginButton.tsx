@@ -10,7 +10,7 @@ export default function ConnectFacebookButton() {
         setLoading(true);
         try {
             const response = await axios.get('/api/facebook/redirect');
-            
+
             if (response.data.url) {
                 window.location.href = response.data.url;
             }
@@ -26,7 +26,7 @@ export default function ConnectFacebookButton() {
         <button 
             onClick={handleConnect} 
             disabled={loading}
-            className="btn btn-primary btn-lg shadow-sm"
+            className="btn btn-primary shadow-sm"
         >
             {loading ? (
                 <span className="loading loading-spinner"></span>
