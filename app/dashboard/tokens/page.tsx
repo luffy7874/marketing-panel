@@ -4,20 +4,8 @@ import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import ConnectFacebookButton from "../Components/ui/FacebookLoginButton";
 import axios from "@/app/libs/axios";
+import { AlertData, TokenData } from "@/app/utils/types";
 
-// 1. Define Strict Types
-interface TokenData {
-    id: string | number;
-    provider: string;
-    access_token: string;
-    refresh_token?: string | null;
-    expires_in: string; // ISO Date String
-}
-
-interface AlertData {
-    type: "success" | "danger" | "warning";
-    message: string;
-}
 
 // 2. Main Logic Component
 function TokenManager() {
@@ -145,7 +133,7 @@ function TokenManager() {
                                     ) : accessTokens ? (
                                         <tr>
                                             <th scope="row">{accessTokens.id}</th>
-                                            <td>Test</td>
+                                            <td>{accessTokens.user?.name ?? "Test User"}</td>
                                             <td className="text-capitalize">{accessTokens.provider}</td>
                                             <td className="text-truncate" style={{ maxWidth: '150px' }} title={accessTokens.access_token}>
                                                 {accessTokens.access_token}
@@ -159,11 +147,11 @@ function TokenManager() {
                                                     const daysLeft = getRemainingDays(accessTokens.expires_in);
                                                     let badgeClass = "bg-success";
                                                     if (daysLeft < 10) badgeClass = "bg-warning text-dark";
-                                                    if (daysLeft < 3) badgeClass = "bg-danger";
+                                                    if (daysLeft < 3) badgeClass = "bg-success";
 
                                                     return (
                                                         <span className={`badge ${badgeClass} fs-12`}>
-                                                            {daysLeft === 0 ? "Expired" : `${daysLeft} Days Left`}
+                                                            {daysLeft === 0 ? "Never Expires" : `${daysLeft} Days Left`}
                                                         </span>
                                                     );
                                                 })()}

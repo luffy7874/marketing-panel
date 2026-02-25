@@ -63,3 +63,22 @@ export type LoginError = {
     email: string[] | undefined,
     password: string[] | undefined;
 }
+
+export type TokenData = {
+    id: string | number;
+    provider: string;
+    access_token: string;
+    refresh_token?: string | null;
+    expires_in: string;
+    user: User | null;
+}
+
+export type User = {
+    name: string;
+    email: string;
+}
+
+export type AlertData = {
+    type: "success" | "danger" | "warning";
+    message: string;
+}
