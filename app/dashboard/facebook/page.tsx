@@ -9,6 +9,7 @@ import MetaDateRange from "../Components/DateRangePicker";
 import { ApiData } from "../../utils/types";
 import { FaTrophy } from "react-icons/fa6";
 import axios from "@/app/libs/axios";
+import FbAccounts from "../Components/ui/FbAccounts";
 
 function FacebookManage() 
 {
@@ -110,8 +111,9 @@ function FacebookManage()
             <TopBarLoader isLoading={loading} color="bg-danger" />
 
             <div className={`container-fluid p-4 ${loading ? 'opacity-50' : ''}`} style={{ transition: 'opacity 0.2s' }}>
+                <h3>Facebook Ads Dashboard</h3>
                 <div className="d-flex justify-content-between">
-                    <h3>Facebook Ads Dashboard</h3>
+                    <FbAccounts />
                     <button 
                         className={`btn d-flex align-items-center gap-2 ${showTop ? 'btn-warning text-dark fw-bold' : 'btn-outline-primary'}`}
                         onClick={() => setShowTop(!showTop)}
