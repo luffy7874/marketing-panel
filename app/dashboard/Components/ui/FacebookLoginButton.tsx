@@ -1,17 +1,38 @@
+'use client';
+import axios from '@/app/libs/axios';
+ // Use YOUR configured axios instance
+import { useState } from 'react';
 
 export default function ConnectFacebookButton() {
-    const handleConnect = () => {
-        // Point this to your Laravel backend URL
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-        window.location.href = `${backendUrl}/api/facebook/redirect`;
+    const [loading, setLoading] = useState(false);
+
+    const handleConnect = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get('/api/facebook/redirect');
+            
+            if (response.data.url) {
+                window.location.href = response.data.url;
+            }
+        } catch (error) {
+            console.error("Failed to get redirect URL:", error);
+            alert("Please login again to connect Facebook.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <button 
             onClick={handleConnect} 
-            className="btn btn-primary btn  -lg shadow-sm"
+            disabled={loading}
+            className="btn btn-primary btn-lg shadow-sm"
         >
-            Connect Facebook Ads
+            {loading ? (
+                <span className="loading loading-spinner"></span>
+            ) : (
+                "Connect Facebook Ads"
+            )}
         </button>
     );
 }
