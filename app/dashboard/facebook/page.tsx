@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { format, subDays } from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 import TopBarLoader from "../Components/topLoader";
@@ -10,7 +10,7 @@ import { ApiData } from "../../utils/types";
 import { FaTrophy } from "react-icons/fa6";
 import axios from "@/app/libs/axios";
 
-export default function Facebook() 
+function FacebookManage() 
 {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -158,5 +158,13 @@ export default function Facebook()
                 )}
             </div>
         </div>
+    );
+}
+
+export default function Facebook() {
+    return (
+        <Suspense fallback={<div className="p-5 text-center"><div className="spinner-border text-primary"></div></div>}>
+            <FacebookManage />
+        </Suspense>
     );
 }
