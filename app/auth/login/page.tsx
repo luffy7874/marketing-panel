@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import {z} from "zod";
 import { LoginError } from "@/app/utils/types";
 import { useAuth } from "@/app/context/AuthContext";
+import Link from "next/link";
 
 export default function Login()
 {
@@ -125,7 +126,7 @@ export default function Login()
                                             </div>
 
                                             <div className="mt-5 text-center">
-                                                <p className="mb-0">Don&apos;t have an account ? <a href="auth-signup-cover.html" className="fw-semibold text-primary text-decoration-underline"> Signup</a> </p>
+                                                <p className="mb-0">Don&apos;t have an account ? <Link href="/auth/register" className="fw-semibold text-primary text-decoration-underline"> Signup</Link> </p>
                                             </div>
                                         </div>
                                     </div>
