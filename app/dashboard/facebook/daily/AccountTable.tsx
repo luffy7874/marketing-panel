@@ -43,9 +43,17 @@ export default function AccountTable({ data }: { data: AccountDailyData[];})
             },
         }),
         columnHelper.accessor("sales", {
-            header: "Sale",
+            header: "Purchase",
             cell: (info) => info.getValue(),
             footer: (info) => info.table.getFilteredRowModel().rows.reduce((sum, row) => sum + row.original.sales, 0),
+        }),
+        columnHelper.accessor("value", {
+            header: "Purchase Value",
+            cell: (info) => `₹${Number(info.getValue()).toLocaleString()}`,
+            footer: (info) => {
+                const total = info.table.getFilteredRowModel().rows.reduce((sum, row) => sum + row.original.value, 0);
+                return `₹${total.toLocaleString()}`;
+            },
         }),
         columnHelper.accessor("roas", {
             header: "ROAS",
