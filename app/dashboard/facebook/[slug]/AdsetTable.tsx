@@ -63,7 +63,7 @@ export default function AdsetTable({ slug }: { slug: string }) {
     const columnHelper = createColumnHelper<AdSet>();
 
     const columns = [
-        columnHelper.accessor("name", {
+        columnHelper.accessor("campaign", {
             header: "AdSet Name",
             cell: (info) => <span className="fw-bold text-primary">{info.getValue()}</span>,
             footer: () => "Total",

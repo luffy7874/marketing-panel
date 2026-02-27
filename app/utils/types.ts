@@ -87,6 +87,7 @@ export type AlertData = {
 
 export type AdSet = {
     campaign_id: string;
+    name: string;
     campaign: string;
     status: string;
     budget: number;  // This is the Active Daily Basis budget
