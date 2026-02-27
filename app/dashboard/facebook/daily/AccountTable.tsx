@@ -178,7 +178,7 @@ export default function AccountTable({ data }: { data: AccountDailyData[];})
             </div>
 
             <div className="table-responsive">
-                <table className="table table-hover align-middle mb-0 text-center">
+                <table className="table table-hover table-striped table-nowrap align-middle mb-0 text-center">
                     <thead className="table-light">
                         {table.getHeaderGroups().map(headerGroup => (
                             <tr key={headerGroup.id}>
