@@ -55,7 +55,7 @@ export default function CampaignTable({ data, showTop }: { data: CampaignRespons
         columnHelper.accessor("campaign", {
             header: "Campaign Name",
             cell: (info) => (
-                <Link href={`/facebook/${info.row.original.campaign_id}`} className="fw-bold text-primary text-truncate" style={{ maxWidth: "200px" }}>
+                <Link href={`/dashboard/facebook/${info.row.original.campaign_id}`} className="fw-bold text-primary text-truncate" style={{ maxWidth: "200px" }}>
                     {info.getValue()}
                 </Link>
             ),
@@ -144,14 +144,14 @@ export default function CampaignTable({ data, showTop }: { data: CampaignRespons
         }),
         columnHelper.accessor("reach", {
             header: "Reach",
-            cell: (info) => Number(info.getValue()).toFixed(2),
+            cell: (info) => info.getValue(),
             footer: () => {
                 return "-";
             },
         }),
         columnHelper.accessor("impressions", {
             header: "Impressions",
-            cell: (info) => Number(info.getValue()).toFixed(2),
+            cell: (info) => info.getValue(),
             footer: () => {
                 return "-";
             },

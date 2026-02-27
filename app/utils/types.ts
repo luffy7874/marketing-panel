@@ -43,6 +43,8 @@ export type ApiData = {
     date: string;
     campaigns: Campaign[];
     total_spend: number;
+    total_budget: number;
+    best_campaign: Campaign | null;
 }
 
 export type RegisterData = {
@@ -81,4 +83,33 @@ export type User = {
 export type AlertData = {
     type: "success" | "danger" | "warning";
     message: string;
+}
+
+export type AdSet = {
+    campaign_id: string;
+    campaign: string;
+    status: string;
+    budget: number;  // This is the Active Daily Basis budget
+    spend: number;
+    roas: number;
+    purchases: number;
+    value: number;   // Revenue
+    impressions: number;
+    clicks: number;
+}
+
+export type AccountDailyData = {
+    date: string;
+    day: string;
+    spend: number;
+    sales: number;
+    roas: number;
+    add_to_cart: number;
+    checkouts: number;
+    ctr: number;
+    cpm: number;
+    frequency: number;
+    reach: number;
+    impressions: number;
+    value: number;
 }

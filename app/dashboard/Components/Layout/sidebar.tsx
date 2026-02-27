@@ -42,29 +42,40 @@ export default function Sidebar()
                     <div id="two-column-menu"></div>
                     <ul className="navbar-nav" id="navbar-nav">
                         <li className="menu-title"><span data-key="t-menu">Menu</span></li>
-                        {/* <li className="nav-item">
-                            <a className="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i className="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
+
+                        <li className="nav-item">
+                            <Link href="/dashboard" className={`nav-link ${pathname === '/dashboard' ? 'active' : ''}`}>
+                                <i className="ri-dashboard-2-line"></i>
+                                <span>Dashboard</span>
+                            </Link>
+                        </li>
+
+                        <li className="nav-item">
+                            <a className="nav-link menu-link" href="#facebookdrop" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="facebookdrop">
+                                <i className="ri-facebook-circle-line"></i> <span data-key="t-dashboards">Facebook Ads</span>
                             </a>
-                            <div className="collapse menu-dropdown" id="sidebarDashboards">
+                            <div className="collapse menu-dropdown" id="facebookdrop">
                                 <ul className="nav nav-sm flex-column">
                                     <li className="nav-item">
-                                        <a href="dashboard-analytics.html" className="nav-link" data-key="t-analytics"> Analytics </a>
+                                        <Link href="/dashboard/facebook" className={`nav-link ${pathname === '/dashboard/facebook' ? 'active' : ''}`}>
+                                            <span>Campaign Data</span>
+                                        </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a href="dashboard-crm.html" className="nav-link" data-key="t-crm"> CRM </a>
+                                        <Link href="/dashboard/facebook/daily" className={`nav-link ${pathname === '/dashboard/facebook/daily' ? 'active' : ''}`}>
+                                            <span>Daily Spend</span>
+                                        </Link>
                                     </li>
                                 </ul>
                             </div>
-                        </li>  */}
-                        {/* <!-- end Dashboard Menu --> */}
+                        </li>
 
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <Link href="/dashboard/facebook" className={`nav-link ${pathname === '/dashboard/facebook' ? 'active' : ''}`}>
                                 <i className="ri-dashboard-2-line"></i>
                                 <span>Facebook Ads</span>
                             </Link>
-                        </li>
+                        </li> */}
                         {/* <li className="nav-item">
                             <Link href="/google" className={`nav-link ${pathname === '/google' ? 'active' : ''}`}>
                                 <i className="ri-dashboard-2-line"></i>

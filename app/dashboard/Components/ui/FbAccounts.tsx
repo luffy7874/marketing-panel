@@ -25,7 +25,7 @@ export default function FbAccounts()
 
     return (
         <div>
-            <h4>Choose Facebook Accounts</h4>
+            <h5>Choose Facebook Accounts</h5>
             <select className="form-select mb-3" aria-label="Default select example">
                 {accounts.map((account: any, index) => (
                     <option key={index} value={account.id}>

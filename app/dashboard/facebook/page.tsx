@@ -10,6 +10,7 @@ import { ApiData } from "../../utils/types";
 import { FaTrophy } from "react-icons/fa6";
 import axios from "@/app/libs/axios";
 import FbAccounts from "../Components/ui/FbAccounts";
+import BreadCrumb from "../Components/ui/BreadCrumb";
 
 function FacebookManage() 
 {
@@ -110,17 +111,20 @@ function FacebookManage()
         <div className="page-content">
             <TopBarLoader isLoading={loading} color="bg-danger" />
 
+            <BreadCrumb heading="Facebook Ads Dashboard" />
+
             <div className={`container-fluid p-4 ${loading ? 'opacity-50' : ''}`} style={{ transition: 'opacity 0.2s' }}>
-                <h3>Facebook Ads Dashboard</h3>
                 <div className="d-flex justify-content-between">
                     <FbAccounts />
-                    <button 
-                        className={`btn d-flex align-items-center gap-2 ${showTop ? 'btn-warning text-dark fw-bold' : 'btn-outline-primary'}`}
-                        onClick={() => setShowTop(!showTop)}
-                    >
-                        <FaTrophy className={showTop ? "text-dark" : "text-warning"} />
-                        {showTop ? "Showing Top Performers" : "Show Top Performers"}
-                    </button>
+                    <div className="best-performing-button">
+                        <button 
+                            className={`btn d-flex align-items-center gap-2 ${showTop ? 'btn-outline-warning text-dark' : 'btn-outline-primary'}`}
+                            onClick={() => setShowTop(!showTop)}
+                        >
+                            <FaTrophy className="text-warning" />
+                            {showTop ? "Show All Campaigns" : "Show Top Performers"}
+                        </button>
+                    </div>
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mb-4 mt-3">
