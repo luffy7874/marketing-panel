@@ -16,7 +16,7 @@ import { AccountDailyData } from "@/app/utils/types";
 // Match this to the data keys we defined in the Laravel fetchAccountDailyReport
 
 
-export default function AccountTable({ data, date }: { data: AccountDailyData[]; date: string })
+export default function AccountTable({ data }: { data: AccountDailyData[];})
 {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [globalFilter, setGlobalFilter] = useState("");
@@ -143,7 +143,23 @@ export default function AccountTable({ data, date }: { data: AccountDailyData[];
     return (
         <div className="card shadow-sm border-0">
             <div className="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                <h5 className="mb-0">Account Performance from <span className="text-info">{date}</span></h5>
+                <div className="filter-options d-flex gap-2 align-items-center">
+                    <span className="text-muted small">Show</span>
+                    <select
+                        className="form-select form-select-sm w-auto"
+                        value={table.getState().pagination.pageSize}
+                        onChange={e => {
+                            table.setPageSize(Number(e.target.value))
+                        }}
+                    >
+                        {[10, 20, 30, 40, 50].map(pageSize => (
+                            <option key={pageSize} value={pageSize}>
+                                {pageSize}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                
                 <input
                     type="text"
                     className="form-control w-25"

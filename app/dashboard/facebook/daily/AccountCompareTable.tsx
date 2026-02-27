@@ -20,9 +20,9 @@ export interface CompareMetric {
     suffix?: string; // Added to handle dynamic units from Laravel
 }
 
-export default function AccountCompareTable({ data }: { data: any }) {
+export default function AccountCompareTable({ data, date }: { data: any, date?: string }) {
     // Accessing the comparison_data array from the structure we defined in Laravel
-    const tableData = useMemo(() => data?.data?.comparison_data || [], [data]);
+    const tableData = useMemo(() => data || [], [data]);
     
     const [sorting, setSorting] = useState<SortingState>([]);
     const [globalFilter, setGlobalFilter] = useState("");
@@ -41,7 +41,8 @@ export default function AccountCompareTable({ data }: { data: any }) {
                 const suffix = info.row.original.suffix || "";
                 
                 if (info.row.original.label.toLowerCase().includes('spend') || 
-                    info.row.original.label.toLowerCase().includes('revenue')) {
+                    info.row.original.label.toLowerCase().includes('revenue') || 
+                    info.row.original.label.toLowerCase().includes('cpm')) {
                     return `₹${val.toLocaleString()}`;
                 }
                 return `${val.toLocaleString()}${suffix}`;
@@ -54,7 +55,8 @@ export default function AccountCompareTable({ data }: { data: any }) {
                 const suffix = info.row.original.suffix || "";
 
                 if (info.row.original.label.toLowerCase().includes('spend') || 
-                    info.row.original.label.toLowerCase().includes('revenue')) {
+                    info.row.original.label.toLowerCase().includes('revenue') || 
+                    info.row.original.label.toLowerCase().includes('cpm')) {
                     return `₹${val.toLocaleString()}`;
                 }
                 return `${val.toLocaleString()}${suffix}`;
@@ -108,14 +110,13 @@ export default function AccountCompareTable({ data }: { data: any }) {
     return (
         <div className="card shadow-sm border-0">
             <div className="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                <h5 className="mb-0">Performance Comparison</h5>
-                <input
+                {/* <input
                     type="text"
                     className="form-control w-25 shadow-sm"
                     placeholder="Search metrics..."
                     value={globalFilter}
                     onChange={(e) => setGlobalFilter(e.target.value)}
-                />
+                /> */}
             </div>
 
             <div className="table-responsive">

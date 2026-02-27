@@ -248,9 +248,23 @@ export default function CampaignTable({ data, showTop }: { data: CampaignRespons
 
     return (
         <div className="card shadow-sm border-0">
-            <div className="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                <h5 className="mb-0">Campaign Performance</h5>
-                
+            <div className="card-header bg-white py-3 d-flex justify-content-between align-items-center">   
+                <div className="filter-options d-flex gap-2 align-items-center">
+                    <span className="text-muted small">Show</span>
+                    <select
+                        className="form-select form-select-sm w-auto"
+                        value={table.getState().pagination.pageSize}
+                        onChange={e => {
+                            table.setPageSize(Number(e.target.value))
+                        }}
+                    >
+                        {[10, 20, 30, 40, 50].map(pageSize => (
+                            <option key={pageSize} value={pageSize}>
+                                {pageSize}
+                            </option>
+                        ))}
+                    </select>
+                </div>             
                 <input
                     type="text"
                     className="form-control w-25"

@@ -112,9 +112,11 @@ function FacebookManage()
             <TopBarLoader isLoading={loading} color="bg-danger" />
 
             <BreadCrumb heading="Facebook Ads Dashboard" />
+            
 
             <div className={`container-fluid p-4 ${loading ? 'opacity-50' : ''}`} style={{ transition: 'opacity 0.2s' }}>
-                <div className="d-flex justify-content-between">
+                <h4 className="mb-0">Campaign Performance <span className="text-info">{apiData?.date ? `for ${apiData.date}` : ""}</span></h4>
+                <div className="d-flex justify-content-between align-items-center mt-3">
                     <FbAccounts />
                     <div className="best-performing-button">
                         <button 
@@ -127,7 +129,7 @@ function FacebookManage()
                     </div>
                 </div>
 
-                <div className="d-flex justify-content-between align-items-center mb-4 mt-3">
+                <div className="d-flex justify-content-between align-items-center mb-2 ">
                     <p className="m-0">
                         {/* Safe check for totalSpend using optional chaining */}
                         Total Ads expenses: <b className="text-success px-2">₹{(apiData?.total_spend || 0).toFixed(2)}</b>

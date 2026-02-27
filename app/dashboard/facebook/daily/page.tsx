@@ -44,6 +44,7 @@ function FacebookManage() {
                     const response = await axios.get(`/api/facebook/daily-data/compare?${searchParams.toString()}`);
                     if (response.status === 200) {
                         setApiData(response.data);
+                        console.log(response.data);
                         setCompareMode(true);
                     }
                 } else {
@@ -88,13 +89,15 @@ function FacebookManage() {
             
             <BreadCrumb heading="Daily Account Data" />
 
-            <div className="container-fluid p-4">
+            <div className="container-fluid px-4 pt-2">
+
+                <h4 className="mb-0">Account Performance from <span className="text-info">{apiData?.date}</span></h4>
 
                 {/* <div className="d-flex justify-content-between align-items-center mb-4 mt-3">
                     
                 </div> */}
 
-                <div className="d-flex justify-content-between align-items-center mb-4 mt-3">
+                <div className="d-flex justify-content-between align-items-center mb-2 mt-3">
                     {/* <p className="m-0">
                         Total Ads expenses: <b className="text-success px-2">₹{(apiData?.total_spend || 0).toFixed(2)}</b>
                     </p> */}
@@ -126,9 +129,9 @@ function FacebookManage() {
 
                 {/* CONDITIONAL RENDERING */}
                 {compareMode ? (
-                    <AccountCompareTable data={apiData?.metrics || []} />
+                    <AccountCompareTable data={apiData?.comparison_data || []} date={apiData?.date} />
                 ) : (
-                    <AccountTable data={apiData?.daily_reports || []} date={apiData?.date} />
+                    <AccountTable data={apiData?.daily_reports || []} />
                 )}
             </div>
         </div>
