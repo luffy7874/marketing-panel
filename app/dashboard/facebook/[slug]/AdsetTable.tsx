@@ -40,8 +40,13 @@ export default function AdsetTable({ slug }: { slug: string }) {
             setLoading(true);
             try {
                 const response = await axios.get(`/api/facebook/adsets/${slug}`);
+
+                console.log("AdSet API response:", response.data.adsets); // Debug log
                 
-                setReportData(response.data.campaignBudgets || { campaigns: [], total_spend: 0 });
+                setReportData({
+                    campaigns: response.data.adsets || [],
+                    total_spend: response.data.total_spend || 0
+                });
             } catch (error) {
                 console.error("AdSet fetch failed:", error);
             } finally {
@@ -58,7 +63,7 @@ export default function AdsetTable({ slug }: { slug: string }) {
     const columnHelper = createColumnHelper<AdSet>();
 
     const columns = [
-        columnHelper.accessor("campaign", {
+        columnHelper.accessor("name", {
             header: "AdSet Name",
             cell: (info) => <span className="fw-bold text-primary">{info.getValue()}</span>,
             footer: () => "Total",

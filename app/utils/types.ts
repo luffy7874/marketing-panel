@@ -112,4 +112,10 @@ export type AccountDailyData = {
     reach: number;
     impressions: number;
     value: number;
+    cpc: number;
+    landing_page_views: number;
+    outbound_clicks: number;
+    c2lpv: number;
+    lpv2atc: number;
+    atc2co: number;
 }

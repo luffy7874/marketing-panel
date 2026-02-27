@@ -93,6 +93,10 @@ export default function AccountTable({ data }: { data: AccountDailyData[];})
             header: "Outbound CTR",
             cell: (info) => `${info.getValue()}%`,
         }),
+        columnHelper.accessor("cpc", {
+            header: "CPC",
+            cell: (info) => `₹${info.getValue()}`,
+        }),
         columnHelper.accessor("cpm", {
             header: "CPM",
             cell: (info) => `₹${info.getValue()}`,
@@ -133,6 +137,42 @@ export default function AccountTable({ data }: { data: AccountDailyData[];})
                 
                 return <span>{total.toLocaleString()}</span>;
             },
+        }),
+
+        columnHelper.accessor("c2lpv", {
+            header: "C2LPV",
+            cell: (info) => `${Number(info.getValue()).toFixed(2)}%`,
+            footer: (info) => {
+                const rows = info.table.getFilteredRowModel().rows;
+                const totalClicks = rows.reduce((sum, r) => sum + (Number(r.original.outbound_clicks) || 0), 0);
+                const totalLPV = rows.reduce((sum, r) => sum + (Number(r.original.landing_page_views) || 0), 0);
+                const result = totalClicks > 0 ? (totalLPV / totalClicks) * 100 : 0;
+                return <strong>{result.toFixed(2)}%</strong>;
+            }
+        }),
+
+        columnHelper.accessor("lpv2atc", {
+            header: "LPV2ATC",
+            cell: (info) => `${Number(info.getValue()).toFixed(2)}%`,
+            footer: (info) => {
+                const rows = info.table.getFilteredRowModel().rows;
+                const totalLPV = rows.reduce((sum, r) => sum + (Number(r.original.landing_page_views) || 0), 0);
+                const totalATC = rows.reduce((sum, r) => sum + (Number(r.original.add_to_cart) || 0), 0);
+                const result = totalLPV > 0 ? (totalATC / totalLPV) * 100 : 0;
+                return <strong>{result.toFixed(2)}%</strong>;
+            }
+        }),
+
+        columnHelper.accessor("atc2co", {
+            header: "ATC2CO",
+            cell: (info) => `${Number(info.getValue()).toFixed(2)}%`,
+            footer: (info) => {
+                const rows = info.table.getFilteredRowModel().rows;
+                const totalATC = rows.reduce((sum, r) => sum + (Number(r.original.add_to_cart) || 0), 0);
+                const totalCO = rows.reduce((sum, r) => sum + (Number(r.original.checkouts) || 0), 0);
+                const result = totalATC > 0 ? (totalCO / totalATC) * 100 : 0;
+                return <strong>{result.toFixed(2)}%</strong>;
+            }
         }),
     ];
 
