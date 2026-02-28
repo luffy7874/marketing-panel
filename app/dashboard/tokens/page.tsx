@@ -23,12 +23,12 @@ function TokenManager() {
     useEffect(() => {
         const fetchTokens = async () => {
             try {
-                const response = await axios.get(`/api/facebook/get-token`);
+                const response = await axios.get(`/api/get-token`);
                 
                 if(response.status == 200){
 
                     console.log("Fetched Tokens:", response.data);
-                    setAccessTokens(response.data.facebook_token);
+                    setAccessTokens(response.data.tokens);
                 }
             } catch (error) {
                 console.error("Error fetching tokens:", error);
