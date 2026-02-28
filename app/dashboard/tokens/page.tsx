@@ -15,7 +15,7 @@ function TokenManager() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const [accessTokens, setAccessTokens] = useState<TokenData | null>(null);
+    const [accessTokens, setAccessTokens] = useState<TokenData[] | null>(null);
     const [alert, setAlert] = useState<AlertData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -133,21 +133,21 @@ function TokenManager() {
                                                 Loading tokens...
                                             </td>
                                         </tr>
-                                    ) : accessTokens ? (
-                                        <tr>
-                                            <th scope="row">{accessTokens.id}</th>
-                                            <td>{accessTokens.user?.name ?? "Test User"}</td>
-                                            <td className="text-capitalize">{accessTokens.provider}</td>
-                                            <td className="text-truncate" style={{ maxWidth: '150px' }} title={accessTokens.access_token}>
-                                                {accessTokens.access_token}
+                                    ) : accessTokens ? accessTokens.map((value, key) => (
+                                        <tr key={key}>
+                                            <th scope="row">{value.id}</th>
+                                            <td>{value.user?.name ?? "Test User"}</td>
+                                            <td className="text-capitalize">{value.provider}</td>
+                                            <td className="text-truncate" style={{ maxWidth: '150px' }} title={value.access_token}>
+                                                {value.access_token}
                                             </td>
                                             <td className="text-truncate" style={{ maxWidth: '150px' }}>
-                                                {accessTokens.refresh_token ?? "None"}
+                                                {value.refresh_token ?? "None"}
                                             </td>
-                                            <td>{formatDate(accessTokens.expires_in)}</td>
+                                            <td>{formatDate(value.expires_in)}</td>
                                             <td>
                                                 {(() => {
-                                                    const daysLeft = getRemainingDays(accessTokens.expires_in);
+                                                    const daysLeft = getRemainingDays(value.expires_in);
                                                     let badgeClass = "bg-success";
                                                     if (daysLeft < 10) badgeClass = "bg-warning text-dark";
                                                     if (daysLeft < 3) badgeClass = "bg-success";
@@ -160,7 +160,7 @@ function TokenManager() {
                                                 })()}
                                             </td>
                                         </tr>
-                                    ) : (
+                                    )) : (
                                         <tr>
                                             <td colSpan={7} className="text-center py-4 text-muted">
                                                 No active tokens found. Please connect an account.
