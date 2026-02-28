@@ -42,6 +42,7 @@ function TokenManager() {
     // Handle OAuth Callbacks
     useEffect(() => {
         const fbAuthStatus = searchParams.get("fb_auth");
+        const googleAuthStatus = searchParams.get("google_auth");
 
         if (fbAuthStatus) {
             if (fbAuthStatus === "success") {
@@ -49,7 +50,15 @@ function TokenManager() {
             } else if (fbAuthStatus === "error") {
                 setAlert({ type: "danger", message: "Failed to connect Facebook Ads. Please try again." });
             }
-            // Clean the URL the Next.js way
+            router.replace(pathname, { scroll: false });
+        }
+
+        if (googleAuthStatus) {
+            if (googleAuthStatus === "success") {
+                setAlert({ type: "success", message: "Google Ads connected successfully!" });
+            } else if (googleAuthStatus === "error") {
+                setAlert({ type: "danger", message: "Failed to connect Google Ads. Please try again." });
+            }
             router.replace(pathname, { scroll: false });
         }
     }, [searchParams, pathname, router]);
