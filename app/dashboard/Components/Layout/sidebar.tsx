@@ -70,6 +70,26 @@ export default function Sidebar()
                             </div>
                         </li>
 
+                        <li className="nav-item">
+                            <a className="nav-link menu-link" href="#googledrop" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="googledrop">
+                                <i className="ri-google-fill"></i> <span data-key="t-dashboards">Google Ads</span>
+                            </a>
+                            <div className="collapse menu-dropdown" id="googledrop">
+                                <ul className="nav nav-sm flex-column">
+                                    <li className="nav-item">
+                                        <Link href="/dashboard/google" className={`nav-link ${pathname === '/dashboard/google' ? 'active' : ''}`}>
+                                            <span>Campaign Data</span>
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link href="/dashboard/google/daily" className={`nav-link ${pathname === '/dashboard/google/daily' ? 'active' : ''}`}>
+                                            <span>Daily Spend</span>
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
                         {/* <li className="nav-item">
                             <Link href="/dashboard/facebook" className={`nav-link ${pathname === '/dashboard/facebook' ? 'active' : ''}`}>
                                 <i className="ri-dashboard-2-line"></i>

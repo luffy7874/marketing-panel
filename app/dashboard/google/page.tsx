@@ -9,10 +9,9 @@ import MetaDateRange from "../Components/DateRangePicker";
 import { ApiData } from "../../utils/types";
 import { FaTrophy } from "react-icons/fa6";
 import axios from "@/app/libs/axios";
-import FbAccounts from "../Components/ui/FbAccounts";
 import BreadCrumb from "../Components/ui/BreadCrumb";
 
-function FacebookManage() 
+function GoogleManage() 
 {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -55,13 +54,13 @@ function FacebookManage()
 
             try {
                 if (searchParams.get("compareMode") === "true") {
-                    const response = await axios.get(`/api/facebook/metrices/compare?${searchParams.toString()}`);
+                    const response = await axios.get(`/api/google/metrices/compare?${searchParams.toString()}`);
                     if(response.status == 200){
                         setApiData(response.data);
                         setCompareMode(true);
                     }
                 } else {
-                    const response = await axios.get(`/api/facebook/metrices?from_date=${start}&to_date=${end}`);
+                    const response = await axios.get(`/api/google/metrices?from_date=${start}&to_date=${end}`);
                     if(response.status == 200){
                         setApiData(response.data);
                         setCompareMode(false);
@@ -111,13 +110,18 @@ function FacebookManage()
         <div className="page-content">
             <TopBarLoader isLoading={loading} color="bg-danger" />
 
-            <BreadCrumb heading="Facebook Ads Performance" />
+            <BreadCrumb heading="Google Ads Performance" />
             
 
             <div className={`container-fluid p-4 ${loading ? 'opacity-50' : ''}`} style={{ transition: 'opacity 0.2s' }}>
                 <h4 className="mb-0">Campaign Performance <span className="text-info">{apiData?.date ? `for ${apiData.date}` : ""}</span></h4>
                 <div className="d-flex justify-content-between align-items-center mt-3">
-                    <FbAccounts />
+                    <div>
+                        <label className="form-label">Choose Facebook Accounts</label>
+                        <select className="form-select mb-3" aria-label="Default select example">
+                            <option value="test">Test Account</option>
+                        </select>
+                    </div>
                     <div className="best-performing-button">
                         <button 
                             className={`btn d-flex align-items-center gap-2 ${showTop ? 'btn-outline-warning text-dark' : 'btn-outline-primary'}`}
@@ -160,19 +164,19 @@ function FacebookManage()
 
                 {/* CONDITIONAL RENDERING */}
                 {compareMode ? (
-                    <CompareTable data={apiData} showTop={showTop} dataOf="facebook" />
+                    <CompareTable data={apiData} showTop={showTop} dataOf="google" />
                 ) : (
-                    <CampaignTable data={apiData} showTop={showTop} dataOf="facebook" />
+                    <CampaignTable data={apiData} showTop={showTop} dataOf="google" />
                 )}
             </div>
         </div>
     );
 }
 
-export default function Facebook() {
+export default function Google() {
     return (
         <Suspense fallback={<div className="p-5 text-center"><div className="spinner-border text-primary"></div></div>}>
-            <FacebookManage />
+            <GoogleManage />
         </Suspense>
     );
 }

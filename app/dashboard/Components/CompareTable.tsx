@@ -55,29 +55,24 @@ const CompareCell = ({ current, prev, isCurrency = false }: any) => {
 };
 
 // --- MAIN COMPONENT ---
-export default function CompareTable({ data, showTop }: { data: any, showTop: boolean }) {
-    // 1. Standard Table State
+export default function CompareTable({ data, showTop, dataOf }: { data: any, showTop: boolean, dataOf: string }) 
+{
     const [sorting, setSorting] = useState<SortingState>([]);
     const [globalFilter, setGlobalFilter] = useState("");
 
-    // 2. Filter & Process Data based on 'showTop' prop
     const processedData = useMemo(() => {
         const campaigns = data?.campaigns || [];
         
-        // Calculate Total Spend safely
         const totalSpend = data?.total_spend || campaigns.reduce((acc: number, curr: any) => acc + (Number(curr.spend) || 0), 0);
 
-        // If "Top Performers" is OFF, return everything
         if (!showTop) return campaigns;
 
-        // If ON, Filter > 20% spend share
         return campaigns.filter((camp: any) => {
             const share = totalSpend > 0 ? (Number(camp.spend) / totalSpend) * 100 : 0;
             return share > 20;
         });
     }, [data, showTop]);
 
-    // 3. Auto-Sort by ROAS when Top Performers mode is active
     useEffect(() => {
         if (showTop) {
             setSorting([{ id: "roas", desc: true }]);
@@ -219,7 +214,14 @@ export default function CompareTable({ data, showTop }: { data: any, showTop: bo
     const table = useReactTable({
         data: processedData,
         columns,
-        state: { sorting, globalFilter },
+        state: { 
+            sorting,
+            globalFilter,
+            columnVisibility: {
+                frequency: dataOf !== 'google', // hides if true
+                reach: dataOf !== 'google',     // hides if true
+            }
+        },
         onSortingChange: setSorting,
         onGlobalFilterChange: setGlobalFilter,
         getCoreRowModel: getCoreRowModel(),

@@ -5,6 +5,7 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import ConnectFacebookButton from "../Components/ui/FacebookLoginButton";
 import axios from "@/app/libs/axios";
 import { AlertData, TokenData } from "@/app/utils/types";
+import ConnectGoogleButton from "../Components/ui/GoogleLoginButton";
 
 
 // 2. Main Logic Component
@@ -105,6 +106,7 @@ function TokenManager() {
                         </div>
                     )}
                     <ConnectFacebookButton />
+                    <ConnectGoogleButton />
                 </div>
 
                 {/* Data Table */}

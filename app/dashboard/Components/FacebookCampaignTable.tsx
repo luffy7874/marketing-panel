@@ -18,7 +18,7 @@ const parseDate = (dateStr: string) => {
     return new Date(dateStr);
 };
 
-export default function CampaignTable({ data, showTop }: { data: CampaignResponse | null, showTop: boolean }) 
+export default function CampaignTable({ data, showTop, dataOf }: { data: CampaignResponse | null, showTop: boolean, dataOf: string }) 
 {
     
     const { tableData, totalSpend } = useMemo(() => {
@@ -235,7 +235,14 @@ export default function CampaignTable({ data, showTop }: { data: CampaignRespons
     const table = useReactTable({
         data: tableData,
         columns,
-        state: { sorting, globalFilter },
+        state: { 
+            sorting,
+            globalFilter,
+            columnVisibility: {
+                frequency: dataOf !== 'google', // hides if true
+                reach: dataOf !== 'google',     // hides if true
+            }
+        },   
         onSortingChange: setSorting,
         onGlobalFilterChange: setGlobalFilter,
         getCoreRowModel: getCoreRowModel(),

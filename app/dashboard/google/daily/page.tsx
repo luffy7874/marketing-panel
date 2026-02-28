@@ -9,7 +9,7 @@ import BreadCrumb from "../../Components/ui/BreadCrumb";
 import AccountCompareTable from "./AccountCompareTable";
 import AccountTable from "./AccountTable";
 
-function FacebookManage() {
+function GoogleAccountManage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     
@@ -41,7 +41,7 @@ function FacebookManage() {
         const fetchFromUrl = async () => {
             try {
                 if (searchParams.get("compareMode") === "true") {
-                    const response = await axios.get(`/api/facebook/daily-data/compare?${searchParams.toString()}`);
+                    const response = await axios.get(`/api/google/daily-data/compare?${searchParams.toString()}`);
                     if (response.status === 200) {
                         setApiData(response.data);
                         console.log(response.data);
@@ -49,7 +49,7 @@ function FacebookManage() {
                     }
                 } else {
                     // Standard Daily Account Data Fetch
-                    const response = await axios.get(`/api/facebook/daily-data?from_date=${from}&to_date=${to}`);
+                    const response = await axios.get(`/api/google/daily-data?from_date=${from}&to_date=${to}`);
                     if (response.status === 200) {
                         setApiData(response.data);
                         setCompareMode(false);
@@ -87,7 +87,7 @@ function FacebookManage() {
     return (
         <div className="page-content">
             
-            <BreadCrumb heading="Facebook Daily Account Performance" />
+            <BreadCrumb heading="Google Daily Account Performance" />
 
             <div className="container-fluid px-4 pt-2">
 
@@ -138,10 +138,10 @@ function FacebookManage() {
     );
 }
 
-export default function Facebook() {
+export default function GoogleAccountManagePage() {
     return (
         <Suspense fallback={<div className="p-5 text-center"><div className="spinner-border text-primary"></div></div>}>
-            <FacebookManage />
+            <GoogleAccountManage />
         </Suspense>
     );
 }
