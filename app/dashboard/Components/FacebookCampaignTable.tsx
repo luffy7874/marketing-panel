@@ -128,7 +128,7 @@ export default function CampaignTable({ data, showTop, dataOf }: { data: Campaig
                 const total = info.table
                     .getFilteredRowModel()
                     .rows.reduce((sum, row) => sum + (Number(row.original.add_to_cart) || 0), 0);
-                return total;
+                return Number(total.toFixed(2));
             },
         }),
 

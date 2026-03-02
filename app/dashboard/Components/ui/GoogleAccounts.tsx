@@ -12,7 +12,7 @@ export default function GoogleAccounts()
             const response = await axios.get("/api/google/ad-accounts");
 
             if (response.status === 200) {
-                setAccounts(response.data);
+                setAccounts(response.data.accounts);
             }
         } catch (error) {
             console.error("Error fetching ad accounts:", error);
@@ -25,7 +25,7 @@ export default function GoogleAccounts()
 
     return (
         <div>
-            <label className="form-label">Choose Facebook Accounts</label>
+            <label className="form-label">Choose Google Accounts</label>
             <select className="form-select mb-3" aria-label="Default select example">
                 {accounts.map((account: any, index) => (
                     <option key={index} value={account.id}>
