@@ -1,0 +1,38 @@
+"use client";
+import axios from "@/app/libs/axios";
+import { useCallback, useEffect, useState } from "react";
+
+export default function GoogleAccounts()
+{
+
+    const [accounts, setAccounts] = useState([]);
+
+    const handleAdAccounts = useCallback(async () => {
+        try {
+            const response = await axios.get("/api/google/ad-accounts");
+
+            if (response.status === 200) {
+                setAccounts(response.data);
+            }
+        } catch (error) {
+            console.error("Error fetching ad accounts:", error);
+        }
+    }, []);
+
+    useEffect(() => {
+        handleAdAccounts();
+    }, [handleAdAccounts]);
+
+    return (
+        <div>
+            <label className="form-label">Choose Facebook Accounts</label>
+            <select className="form-select mb-3" aria-label="Default select example">
+                {accounts.map((account: any, index) => (
+                    <option key={index} value={account.id}>
+                        {account.name}
+                    </option>
+                ))}
+            </select>
+        </div>
+    );
+}

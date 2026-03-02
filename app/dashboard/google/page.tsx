@@ -10,6 +10,7 @@ import { ApiData } from "../../utils/types";
 import { FaTrophy } from "react-icons/fa6";
 import axios from "@/app/libs/axios";
 import BreadCrumb from "../Components/ui/BreadCrumb";
+import GoogleAccounts from "../Components/ui/GoogleAccounts";
 
 function GoogleManage() 
 {
@@ -116,12 +117,9 @@ function GoogleManage()
             <div className={`container-fluid p-4 ${loading ? 'opacity-50' : ''}`} style={{ transition: 'opacity 0.2s' }}>
                 <h4 className="mb-0">Campaign Performance <span className="text-info">{apiData?.date ? `for ${apiData.date}` : ""}</span></h4>
                 <div className="d-flex justify-content-between align-items-center mt-3">
-                    <div>
-                        <label className="form-label">Choose Facebook Accounts</label>
-                        <select className="form-select mb-3" aria-label="Default select example">
-                            <option value="test">Test Account</option>
-                        </select>
-                    </div>
+                    
+                    <GoogleAccounts />
+
                     <div className="best-performing-button">
                         <button 
                             className={`btn d-flex align-items-center gap-2 ${showTop ? 'btn-outline-warning text-dark' : 'btn-outline-primary'}`}

@@ -8,6 +8,7 @@ import FbAccounts from "@/app/dashboard/Components/ui/FbAccounts";
 import BreadCrumb from "../../Components/ui/BreadCrumb";
 import AccountCompareTable from "./AccountCompareTable";
 import AccountTable from "./AccountTable";
+import GoogleAccounts from "../../Components/ui/GoogleAccounts";
 
 function GoogleAccountManage() {
     const router = useRouter();
@@ -102,7 +103,7 @@ function GoogleAccountManage() {
                         Total Ads expenses: <b className="text-success px-2">₹{(apiData?.total_spend || 0).toFixed(2)}</b>
                     </p> */}
 
-                    <FbAccounts />
+                    <GoogleAccounts />
                     
                     <div style={{ position: "relative", display: "inline-block" }}>
                         <div
