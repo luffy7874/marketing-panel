@@ -105,28 +105,6 @@ export default function AccountTable({ data }: { data: AccountDailyData[];})
                 return `₹${total.toLocaleString()}`;
             },
         }),
-        columnHelper.accessor("frequency", {
-            header: "Freq",
-            cell: (info) => info.getValue(),
-            footer: (info) => {
-                const rows = info.table.getFilteredRowModel().rows;
-                const totalImps = rows.reduce((sum, r) => sum + (Number(r.original.impressions) || 0), 0);
-                const totalReach = rows.reduce((sum, r) => sum + (Number(r.original.reach) || 0), 0);
-                const weightedFreq = totalReach > 0 ? (totalImps / totalReach) : 0;
-                return <strong>{weightedFreq.toFixed(2)}x</strong>;
-            }
-        }),
-        columnHelper.accessor("reach", {
-            header: "Reach",
-            cell: (info) => Number(info.getValue()).toLocaleString(),
-            footer: (info) => {
-                const total = info.table
-                    .getFilteredRowModel()
-                    .rows.reduce((sum, row) => sum + (Number(row.original.reach) || 0), 0);
-                
-                return <span>{total.toLocaleString()}</span>;
-            },
-        }),
         columnHelper.accessor("impressions", {
             header: "Impressions",
             cell: (info) => Number(info.getValue()).toLocaleString(),
@@ -139,29 +117,29 @@ export default function AccountTable({ data }: { data: AccountDailyData[];})
             },
         }),
 
-        columnHelper.accessor("c2lpv", {
-            header: "C2LPV",
-            cell: (info) => `${Number(info.getValue()).toFixed(2)}%`,
-            footer: (info) => {
-                const rows = info.table.getFilteredRowModel().rows;
-                const totalClicks = rows.reduce((sum, r) => sum + (Number(r.original.outbound_clicks) || 0), 0);
-                const totalLPV = rows.reduce((sum, r) => sum + (Number(r.original.landing_page_views) || 0), 0);
-                const result = totalClicks > 0 ? (totalLPV / totalClicks) * 100 : 0;
-                return <strong>{result.toFixed(2)}%</strong>;
-            }
-        }),
+        // columnHelper.accessor("c2lpv", {
+        //     header: "C2LPV",
+        //     cell: (info) => `${Number(info.getValue()).toFixed(2)}%`,
+        //     footer: (info) => {
+        //         const rows = info.table.getFilteredRowModel().rows;
+        //         const totalClicks = rows.reduce((sum, r) => sum + (Number(r.original.outbound_clicks) || 0), 0);
+        //         const totalLPV = rows.reduce((sum, r) => sum + (Number(r.original.landing_page_views) || 0), 0);
+        //         const result = totalClicks > 0 ? (totalLPV / totalClicks) * 100 : 0;
+        //         return <strong>{result.toFixed(2)}%</strong>;
+        //     }
+        // }),
 
-        columnHelper.accessor("lpv2atc", {
-            header: "LPV2ATC",
-            cell: (info) => `${Number(info.getValue()).toFixed(2)}%`,
-            footer: (info) => {
-                const rows = info.table.getFilteredRowModel().rows;
-                const totalLPV = rows.reduce((sum, r) => sum + (Number(r.original.landing_page_views) || 0), 0);
-                const totalATC = rows.reduce((sum, r) => sum + (Number(r.original.add_to_cart) || 0), 0);
-                const result = totalLPV > 0 ? (totalATC / totalLPV) * 100 : 0;
-                return <strong>{result.toFixed(2)}%</strong>;
-            }
-        }),
+        // columnHelper.accessor("lpv2atc", {
+        //     header: "LPV2ATC",
+        //     cell: (info) => `${Number(info.getValue()).toFixed(2)}%`,
+        //     footer: (info) => {
+        //         const rows = info.table.getFilteredRowModel().rows;
+        //         const totalLPV = rows.reduce((sum, r) => sum + (Number(r.original.landing_page_views) || 0), 0);
+        //         const totalATC = rows.reduce((sum, r) => sum + (Number(r.original.add_to_cart) || 0), 0);
+        //         const result = totalLPV > 0 ? (totalATC / totalLPV) * 100 : 0;
+        //         return <strong>{result.toFixed(2)}%</strong>;
+        //     }
+        // }),
 
         columnHelper.accessor("atc2co", {
             header: "ATC2CO",
