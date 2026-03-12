@@ -156,14 +156,23 @@ function TokenManager() {
                                             <td>{formatDate(value.expires_in)}</td>
                                             <td>
                                                 {(() => {
+                                                    if (!value.expires_in) {
+                                                        return (
+                                                            <span className="badge bg-success fs-12">
+                                                                Never Expires
+                                                            </span>
+                                                        );
+                                                    }
+
                                                     const daysLeft = getRemainingDays(value.expires_in);
+
                                                     let badgeClass = "bg-success";
                                                     if (daysLeft < 10) badgeClass = "bg-warning text-dark";
-                                                    if (daysLeft < 3) badgeClass = "bg-success";
+                                                    if (daysLeft < 3) badgeClass = "bg-danger";
 
                                                     return (
                                                         <span className={`badge ${badgeClass} fs-12`}>
-                                                            {daysLeft === 0 ? "Never Expires" : `${daysLeft} Days Left`}
+                                                            {daysLeft === 0 ? "Expired" : `${daysLeft} Days Left`}
                                                         </span>
                                                     );
                                                 })()}
