@@ -1,6 +1,6 @@
 "use client"
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react"; // <-- 1. Import Suspense here
 import { format, subDays } from "date-fns";
 import axios from "@/app/libs/axios";
 import ShopifyAccounts from "./Components/ui/ShopifyAccounts";
@@ -10,9 +10,8 @@ import BreadCrumb from "./Components/ui/BreadCrumb";
 import MetaDateRange from "./Components/DateRangePicker";
 import { ApiData } from "../utils/types";
 
-// Make sure to import your Store Dropdown!
-
-export default function Dashboard() {
+// 2. Rename your main function to DashboardContent (remove 'export default')
+function DashboardContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     
@@ -22,7 +21,7 @@ export default function Dashboard() {
     const [open, setOpen] = useState(false);
     const [store, setStore] = useState<string>("");
     
-    // --- TOP LEVEL DATE LOGIC (Moved outside useEffect!) ---
+    // --- TOP LEVEL DATE LOGIC ---
     const from = searchParams.get("from_date");
     const to = searchParams.get("to_date");
 
@@ -48,13 +47,11 @@ export default function Dashboard() {
 
     // --- FETCH LOGIC ---
     useEffect(() => {
-        // If the store dropdown hasn't loaded a store yet, stop here.
         if (!store) return;
 
         const fetchFromUrl = async () => {
             setLoading(true);
             try {
-                // You can add your main dashboard metrics fetch here later
                 const response = await axios.get(`/api/shopify/sales-analysis?shop=${store}&from_date=${start}&to_date=${end}`);
                 if(response.status === 200) {
                     setApiData(response.data);
@@ -67,7 +64,7 @@ export default function Dashboard() {
         };
 
         fetchFromUrl();
-    }, [searchParams, store, start, end]); // Added start and end to dependency array
+    }, [searchParams, store, start, end]);
 
     // --- HANDLER ---
     const handleApply = () => {
@@ -87,11 +84,9 @@ export default function Dashboard() {
         <div className="page-content">
             <BreadCrumb heading="Dashboard" />
             <div className="container-fluid px-4">
-
                 
                 {/* Header & Controls */}
                 <div className="d-flex justify-content-between align-items-center">
-                    {/* We MUST include this so the 'store' state gets populated! */}
                     <ShopifyAccounts store={store} setStore={setStore} />
 
                     <div style={{ position: "relative", display: "inline-block" }}>
@@ -118,8 +113,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Widgets Grid */}
-                <div className="row">
-                    {/* Make it responsive: half width on large screens, full width on mobile */}
+                <div className="row mt-4">
                     <div className="col-12 col-xl-6">
                         <TopProductsWidget
                             store={store} 
@@ -138,5 +132,15 @@ export default function Dashboard() {
 
             </div>
         </div>
+    );
+}
+
+// 3. Create your new default export that wraps the content in a Suspense boundary
+export default function Dashboard() {
+    return (
+        // The fallback UI will show for a split second while Next.js reads the URL parameters
+        <Suspense fallback={<div className="p-5 text-center">Loading dashboard...</div>}>
+            <DashboardContent />
+        </Suspense>
     );
 }
