@@ -16,7 +16,7 @@ export default function Dashboard() {
     const searchParams = useSearchParams();
     
     // --- STATE ---
-    const [apiData, setApiData] = useState(null);
+    const [apiData, setApiData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const [store, setStore] = useState<string>("");
