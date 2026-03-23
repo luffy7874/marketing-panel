@@ -45,6 +45,11 @@ export type ApiData = {
     total_spend: number;
     total_budget: number;
     best_campaign: Campaign | null;
+    daily_reports: Error | null;
+}
+
+export type Error = {
+    error: string;
 }
 
 export type RegisterData = {
@@ -69,6 +74,7 @@ export type LoginError = {
 export type TokenData = {
     id: string | number;
     provider: string;
+    portfolio_name: string,
     access_token: string;
     refresh_token?: string | null;
     expires_in: string;
@@ -119,4 +125,21 @@ export type AccountDailyData = {
     c2lpv: number;
     lpv2atc: number;
     atc2co: number;
+}
+
+export type SalesAnalysisData = {
+    period: string;
+    gross_sales: number;
+    total_sales: number;
+    orders: number;
+    returns: number;
+    fb_spend: number;
+    google_spend: number;
+    total_spend: number;
+    fb_roas: number;
+    google_roas: number;
+    blended_roas: number;
+    returning_customer_percent: number;
+    new_customers: number;
+    cac: number;
 }

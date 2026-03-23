@@ -94,14 +94,7 @@ function GoogleAccountManage() {
 
                 <h4 className="mb-0">Account Performance from <span className="text-info">{apiData?.date}</span></h4>
 
-                {/* <div className="d-flex justify-content-between align-items-center mb-4 mt-3">
-                    
-                </div> */}
-
                 <div className="d-flex justify-content-between align-items-center mb-2 mt-3">
-                    {/* <p className="m-0">
-                        Total Ads expenses: <b className="text-success px-2">₹{(apiData?.total_spend || 0).toFixed(2)}</b>
-                    </p> */}
 
                     <GoogleAccounts />
                     

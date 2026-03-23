@@ -90,6 +90,31 @@ export default function Sidebar()
                             </div>
                         </li>
 
+                        <li className="nav-item">
+                            <a className="nav-link menu-link" href="#shopify" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="shopify">
+                                <i className="bx bxl-shopify"></i> <span data-key="t-dashboards">Shopify Analysis</span>
+                            </a>
+                            <div className="collapse menu-dropdown" id="shopify">
+                                <ul className="nav nav-sm flex-column">
+                                    <li className="nav-item">
+                                        <Link href="/dashboard/shopify/sales-analysis" className={`nav-link ${pathname === '/dashboard/shopify/sales-analysis' ? 'active' : ''}`}>
+                                            <span>Sales Analysis</span>
+                                        </Link>
+                                    </li>
+                                    {/* <li className="nav-item">
+                                        <Link href="/dashboard/shopify/products" className={`nav-link ${pathname === '/dashboard/shopify/products' ? 'active' : ''}`}>
+                                            <span>Products</span>
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link href="/dashboard/shopify/regions" className={`nav-link ${pathname === '/dashboard/shopify/regions' ? 'active' : ''}`}>
+                                            <span>Regions</span>
+                                        </Link>
+                                    </li> */}
+                                </ul>
+                            </div>
+                        </li>
+
                         {/* <li className="nav-item">
                             <Link href="/dashboard/facebook" className={`nav-link ${pathname === '/dashboard/facebook' ? 'active' : ''}`}>
                                 <i className="ri-dashboard-2-line"></i>

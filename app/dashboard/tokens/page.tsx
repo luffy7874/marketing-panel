@@ -6,6 +6,8 @@ import ConnectFacebookButton from "../Components/ui/FacebookLoginButton";
 import axios from "@/app/libs/axios";
 import { AlertData, TokenData } from "@/app/utils/types";
 import ConnectGoogleButton from "../Components/ui/GoogleLoginButton";
+import { Button } from "react-bootstrap";
+import ShopifyModel from "../Components/ui/ShopifyModel";
 
 
 // 2. Main Logic Component
@@ -18,6 +20,7 @@ function TokenManager() {
     const [accessTokens, setAccessTokens] = useState<TokenData[] | null>(null);
     const [alert, setAlert] = useState<AlertData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [modalShow, setModalShow] = useState(false);
 
     // Fetch Tokens
     useEffect(() => {
@@ -116,6 +119,14 @@ function TokenManager() {
                     )}
                     <ConnectFacebookButton />
                     <ConnectGoogleButton />
+                    <Button variant="info" onClick={() => setModalShow(true)}>
+                            Connect Shopify Stores
+                    </Button>
+
+                    <ShopifyModel
+                        show={modalShow}
+                        onHide={() => setModalShow(false)}
+                    />
                 </div>
 
                 {/* Data Table */}
@@ -128,6 +139,7 @@ function TokenManager() {
                                         <th scope="col">Id</th>
                                         <th scope="col">Customer</th>
                                         <th scope="col">Provider</th>
+                                        <th scope="col">Portfolio</th>
                                         <th scope="col">Access Token</th>
                                         <th scope="col">Refresh Token</th>
                                         <th scope="col">Expires At</th>
@@ -147,6 +159,7 @@ function TokenManager() {
                                             <th scope="row">{value.id}</th>
                                             <td>{value.user?.name ?? "Test User"}</td>
                                             <td className="text-capitalize">{value.provider}</td>
+                                            <td className="">{value.portfolio_name}</td>
                                             <td className="text-truncate" style={{ maxWidth: '150px' }} title={value.access_token}>
                                                 {value.access_token}
                                             </td>

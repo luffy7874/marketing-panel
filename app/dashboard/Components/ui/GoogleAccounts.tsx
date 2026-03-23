@@ -27,7 +27,7 @@ export default function GoogleAccounts()
         <div>
             <label className="form-label">Choose Google Accounts</label>
             <select className="form-select mb-3" aria-label="Default select example">
-                {accounts.map((account: any, index) => (
+                {accounts && accounts.map((account: any, index) => (
                     <option key={index} value={account.id}>
                         {account.name}
                     </option>

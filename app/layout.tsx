@@ -12,7 +12,16 @@ export default function RootLayout({
 }>) {
 	
   return (
-    <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+    <html 
+      lang="en"
+      data-layout="vertical"
+      data-topbar="light"
+      data-sidebar="light"
+      data-sidebar-size="lg"
+      data-sidebar-image="none"
+      data-preloader="disable"
+      suppressHydrationWarning
+    >
       <body className="bg-light">
         <AuthProvider>
           <AuthGuard>

@@ -12,6 +12,7 @@
 	border: 1px solid #959595;
 	gap: 20px;
 	width: fit-content;
+	z-index: 9999;
 }
 
 /* Presets */
