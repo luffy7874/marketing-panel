@@ -1,6 +1,6 @@
 "use client"
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react"; // <-- Added Suspense
 import { format, subDays } from "date-fns";
 import axios from "@/app/libs/axios";
 import TopBarLoader from "../../Components/topLoader";
@@ -11,9 +11,8 @@ import SalesTable from "./SalesTable";
 import SalesAnalysisDatepicker from "../../Components/SalesAnalysisDatepicker";
 import { ApiData } from "@/app/utils/types";
 
-export default function SalesAnalysis()
-{
-
+// 1. Rename the main component to SalesAnalysisContent
+function SalesAnalysisContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     // --- STATE ---
@@ -30,11 +29,8 @@ export default function SalesAnalysis()
         searchParams.get("to_date") ? new Date(searchParams.get("to_date")!) : new Date(),
     ]);
 
-
     // --- FETCH LOGIC ---
-
-    useEffect(() => 
-    {
+    useEffect(() => {
         if (!store) return;
 
         const from = searchParams.get("from_date");
@@ -47,7 +43,7 @@ export default function SalesAnalysis()
             setLoading(true);
 
             try {
-                const response = await axios.get(`/api/shopify/sales-analysis?shop=${store}&from_date=${start}&to_date=${end}`);
+                const response = await axios.get(`/api/shopify/sales-analysis?shop=${store}&from_date=${start}&to_date=${end}&group_by=${groupBy}`); // <-- Make sure groupBy is in this URL too!
                 if(response.status == 200){
                     setApiData(response.data);
                 }
@@ -59,12 +55,11 @@ export default function SalesAnalysis()
         };
 
         fetchFromUrl();
-    }, [searchParams, store]);
+    }, [searchParams, store, groupBy]); // <-- Added groupBy to dependency array
 
 
     // --- HANDLER ---
-    const handleApply = () =>
-    {
+    const handleApply = () => {
         if (!dateRange[0] || !dateRange[1]) return;
 
         const startStr = format(dateRange[0], "yyyy-MM-dd");
@@ -84,22 +79,12 @@ export default function SalesAnalysis()
 
             <BreadCrumb heading="Shopify Sales Analysis" />
             
-
             <div className={`container-fluid p-4 ${loading ? 'opacity-50' : ''}`} style={{ transition: 'opacity 0.2s' }}>
                 <h4 className="mb-0">Sales Analysis for <span className="text-info">{apiData?.date ? `${apiData.date}` : ""}</span></h4>
                 <div className="d-flex justify-content-between align-items-center mt-3">
                     
                     <ShopifyAccounts store={store} setStore={setStore} />
 
-                    {/* <div className="best-performing-button">
-                        <button 
-                            className={`btn d-flex align-items-center gap-2 ${showTop ? 'btn-outline-warning text-dark' : 'btn-outline-primary'}`}
-                            onClick={() => setShowTop(!showTop)}
-                        >
-                            <FaTrophy className="text-warning" />
-                            {showTop ? "Show All Campaigns" : "Show Top Performers"}
-                        </button>
-                    </div> */}
                     <div style={{ position: "relative", display: "inline-block" }}>
                         <div
                             className="alert alert-info py-1 px-3 mb-0"
@@ -126,5 +111,14 @@ export default function SalesAnalysis()
                 
             </div>
         </div>
+    );
+}
+
+// 2. Export the Suspense Wrapper
+export default function SalesAnalysis() {
+    return (
+        <Suspense fallback={<div className="page-content p-5 text-center">Loading Sales Analysis...</div>}>
+            <SalesAnalysisContent />
+        </Suspense>
     );
 }
