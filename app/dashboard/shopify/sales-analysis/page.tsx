@@ -9,6 +9,7 @@ import ShopifyAccounts from "../../Components/ui/ShopifyAccounts";
 import { FaTrophy } from "react-icons/fa6";
 import SalesTable from "./SalesTable";
 import SalesAnalysisDatepicker from "../../Components/SalesAnalysisDatepicker";
+import { ApiData } from "@/app/utils/types";
 
 export default function SalesAnalysis()
 {
@@ -16,7 +17,7 @@ export default function SalesAnalysis()
     const router = useRouter();
     const searchParams = useSearchParams();
     // --- STATE ---
-    const [apiData, setApiData] = useState([]);
+    const [apiData, setApiData] = useState<ApiData | null>();
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const [showTop, setShowTop] = useState(false);
@@ -49,7 +50,6 @@ export default function SalesAnalysis()
                 const response = await axios.get(`/api/shopify/sales-analysis?shop=${store}&from_date=${start}&to_date=${end}`);
                 if(response.status == 200){
                     setApiData(response.data);
-                    console.log(apiData);
                 }
             } catch (err) {
                 console.error(err);

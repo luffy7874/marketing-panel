@@ -41,6 +41,7 @@ export type Props = {
 
 export type ApiData = {
     date: string;
+    data: [],
     campaigns: Campaign[];
     total_spend: number;
     total_budget: number;

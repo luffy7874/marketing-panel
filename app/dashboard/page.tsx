@@ -8,6 +8,7 @@ import TopProductsWidget from "./Components/widgets/TopProductsWidgets";
 import TopRegionsWidget from "./Components/widgets/TopRegionsWidgets";
 import BreadCrumb from "./Components/ui/BreadCrumb";
 import MetaDateRange from "./Components/DateRangePicker";
+import { ApiData } from "../utils/types";
 
 // Make sure to import your Store Dropdown!
 
@@ -16,7 +17,7 @@ export default function Dashboard() {
     const searchParams = useSearchParams();
     
     // --- STATE ---
-    const [apiData, setApiData] = useState([]);
+    const [apiData, setApiData] = useState<ApiData | null>();
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const [store, setStore] = useState<string>("");
